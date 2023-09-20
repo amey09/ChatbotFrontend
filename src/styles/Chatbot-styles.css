@@ -1,0 +1,38 @@
+.chatbot-styles {
+    height: 100%;
+    width: 100vw;
+}
+
+.react-chatbot-kit-chat-container {
+    position: relative;
+    height: 85svh;
+    width: auto;
+    overflow: hidden;
+}
+
+.react-chatbot-kit-chat-inner-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.react-chatbot-kit-chat-message-container {
+    position: relative;
+    height: 100%;
+}
+
+.react-chatbot-kit-chat-input-container {
+    position: relative;
+    display: none;
+}
+
+.react-chatbot-kit-chat-bot-message {
+    margin-left: 0;
+}
+
+@media (min-width: 768px) {
+    .chatbot-styles {
+        width: 50vw;
+    }
+}
