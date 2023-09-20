@@ -13,6 +13,39 @@ function actionProvider({ createChatBotMessage, setState, children }) {
     updateState(messages);
   };
 
+  const scheduleAction = (props) => {
+    const message = `${String(props.date)}, ${String(props.day)}, ${String(
+        props.time
+    )}`;
+    const messages = [createClientMessage(message)];
+    updateState(messages);
+  };
+
+  const userDetailAction = () => {
+    const messages = [
+      createChatBotMessage("Enter Details", {
+        widget: "InputField",
+      }),
+    ];
+    updateState(messages);
+  };
+
+  const finalAction = (props) => {
+    const message = `${String(props.name)}, ${String(props.age)}`;
+    const messages = [createClientMessage(message)];
+    updateState(messages);
+  };
+
+  const scheduleWidgetAction = () => {
+    const messages = [
+      createChatBotMessage("Successfully Booked", {
+        widget: "ScheduleCard",
+      }),
+    ];
+    updateState(messages);
+    console.log("Custom message success");
+  };
+
   const updateState = (message) => {
     setState((prev) => ({
       ...prev,
@@ -24,7 +57,11 @@ function actionProvider({ createChatBotMessage, setState, children }) {
       {React.Children.map(children, (child) => {
         return React.cloneElement(child, {
           actions: {
-            initialAction
+            initialAction,
+            scheduleWidgetAction,
+            finalAction,
+            userDetailAction,
+            scheduleAction,
           },
         });
       })}

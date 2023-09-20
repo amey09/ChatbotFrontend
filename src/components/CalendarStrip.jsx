@@ -17,9 +17,16 @@ const CalendarStrip = (props) => {
       setTimeout(() => {
         console.log(selectedDateIndex, selectedTimeValue, selectedDayOfWeek);
         setShouldRender(false);
+        props.actions.scheduleAction({
+          date: selectedDateIndex,
+          time: selectedTimeValue,
+          day: selectedDayOfWeek,
+        });
+        props.actions.userDetailAction();
+
       }, 4000);
     }
-  }, []);
+  }, [selectedDateIndex, selectedTimeValue]);
 
   const DateGenerator = () => {
     const currentDate = new Date();
