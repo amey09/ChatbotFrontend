@@ -20,7 +20,6 @@ const ScheduleCard = () => {
     const {userBookings} = useSelector((state) => state.users)
     const {Date, Time, Day} = userBookings[0]
     const navigate = useNavigate();
-    console.log("Component Run")
 
     const Stopwatch = () => {
         const [countdown, setCountdown] = useState(15);

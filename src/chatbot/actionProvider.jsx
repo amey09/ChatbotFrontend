@@ -25,7 +25,7 @@ function ActionProvider({createChatBotMessage, setState, children}) {
         updateState(messages);
     };
 
-    const userDetailAction = (props) => {
+    const userDetailAction = () => {
         const messages = [
             createChatBotMessage("Enter Details", {
                 widget: "InputField",
@@ -48,7 +48,6 @@ function ActionProvider({createChatBotMessage, setState, children}) {
             }),
         ];
         updateState(messages);
-        console.log("Custom message success");
     };
 
     const updateState = (message) => {
