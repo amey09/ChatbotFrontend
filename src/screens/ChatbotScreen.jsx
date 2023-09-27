@@ -10,7 +10,7 @@ import "../styles/Chatbot-styles.css";
 function ChatbotScreen() {
 
     return (
-        <Center height={"100svh"} paddingTop={"15svh"}>
+        <Center height={"85svh"}>
             <div className="chatbot-styles">
                 <Chatbot
                     config={config}
