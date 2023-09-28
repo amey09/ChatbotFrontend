@@ -1,8 +1,8 @@
 import {createSlice} from "@reduxjs/toolkit";
 
 const initialState = {
-    userName: String,
-    userAge: Number,
+    userName: undefined,
+    userAge: undefined,
     userBookings: []
 }
 
