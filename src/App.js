@@ -2,16 +2,20 @@ import React from "react";
 import Navbar from "./components/Navbar";
 import MainAppScreen from "./screens/MainAppScreen";
 
-import { Routes, Route } from "react-router-dom";
+import {Routes, Route} from "react-router-dom";
 import ChatbotScreen from "./screens/ChatbotScreen";
+import LoginScreen from "./screens/LoginScreen";
+import RegisterScreen from "./screens/RegisterScreens";
 
 function App() {
     return (
         <>
-            <Navbar />
+            <Navbar/>
             <Routes>
-                <Route path={"/"} element={<MainAppScreen />} />
-                <Route path={"/chat-bot"} element={<ChatbotScreen />} />
+                <Route path={"/login"} element={<LoginScreen/>}/>
+                <Route path={"/register"} element={<RegisterScreen/>}/>
+                <Route path={"/"} element={<MainAppScreen/>}/>
+                <Route path={"/chat-bot"} element={<ChatbotScreen/>}/>
             </Routes>
         </>
     );
