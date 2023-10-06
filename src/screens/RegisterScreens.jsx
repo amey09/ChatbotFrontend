@@ -14,11 +14,13 @@ import {
     InputLeftElement, FormErrorMessage
 } from "@chakra-ui/react";
 import {EmailIcon, LockIcon} from "@chakra-ui/icons";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 function RegisterScreen() {
+    const navigate = useNavigate()
+
     const handleSubmit = (values, actions) => {
-        console.log('Form submitted with values:', values);
+        navigate('/login')
         actions.resetForm();
     }
 
