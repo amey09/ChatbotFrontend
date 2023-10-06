@@ -21,8 +21,8 @@ const CalendarStrip = (props) => {
                     time: selectedTimeValue,
                     day: selectedDayOfWeek,
                 });
-                props.actions.userDetailAction();
-            }, 4000);
+                props.actions.userDetailAction()
+            }, 1000);
         }
     }, [selectedDateIndex, selectedTimeValue]);
 
