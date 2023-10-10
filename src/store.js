@@ -1,10 +1,14 @@
-import {configureStore} from "@reduxjs/toolkit";
-import usersSlice from "./slices/usersSlice";
-import messagesSlice from "./slices/messagesSlice";
+import { configureStore } from "@reduxjs/toolkit";
+import authReducer from "./slices/authSlice";
+import { apiSlice } from "./slices/apiSlice";
+import messagesReducer from "./slices/messagesSlice";
+import usersReducers from "./slices/usersSlice";
 
 export const store = configureStore({
-    reducer: {
-        users: usersSlice,
-        messages: messagesSlice,
-    }
-})
+  reducer: {
+    [apiSlice.reducerPath]: apiSlice.reducer,
+    auth: authReducer,
+    messages: messagesReducer,
+    users: usersReducers,
+  },
+});
