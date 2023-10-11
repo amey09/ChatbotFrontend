@@ -2,13 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
 
 const initialState = {
-  userName: undefined,
-  userAge: undefined,
-  userBookings: [],
+  sessionInfo: null,
 };
 
 const userSlice = createSlice({
-  name: "users",
+  name: "customSession",
   initialState,
   reducers: {
     setBooking: (state, action) => {
@@ -16,11 +14,11 @@ const userSlice = createSlice({
         id: uuidv4(),
         ...action.payload,
       };
-      state.userBookings.push(newBooking);
+      state.sessionInfo.push(newBooking);
     },
     deleteBooking: (state, action) => {
       const bookingId = action.payload;
-      console.log(`Deleting Id initiated: ${bookingId}`)
+      console.log(`Deleting Id initiated: ${bookingId}`);
       const index = state.userBookings.findIndex(
         (booking) => booking.id === bookingId
       );
@@ -28,11 +26,8 @@ const userSlice = createSlice({
         state.userBookings.splice(index, 1);
       }
     },
-
     setUserDetails: (state, action) => {
-      const { name, age } = action.payload;
-      state.userName = name;
-      state.userAge = age;
+      return { ...state, sessionInfo: action.payload };
     },
   },
 });
