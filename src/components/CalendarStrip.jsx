@@ -21,7 +21,7 @@ const CalendarStrip = (props) => {
                     time: selectedTimeValue,
                     day: selectedDayOfWeek,
                 });
-                props.actions.userDetailAction()
+                props.actions.ageSelection()
             }, 1000);
         }
     }, [selectedDateIndex, selectedTimeValue]);
