@@ -7,6 +7,7 @@ import ChatbotScreen from "./screens/ChatbotScreen";
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreens";
 import DashboardScreen from "./screens/DashboardScreen";
+import ProtectedRoute from "./utils/protectedRoutes";
 
 function App() {
   return (
@@ -15,9 +16,11 @@ function App() {
       <Routes>
         <Route path={"/login"} element={<LoginScreen />} />
         <Route path={"/register"} element={<RegisterScreen />} />
-        <Route path={"/"} element={<MainAppScreen />} />
-        <Route path={"/chat-bot"} element={<ChatbotScreen />} />
-        <Route path={"/dashboard"} element={<DashboardScreen />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path={"/"} element={<MainAppScreen />} />
+          <Route path={"/chat-bot"} element={<ChatbotScreen />} />
+          <Route path={"/dashboard"} element={<DashboardScreen />} />
+        </Route>
       </Routes>
     </>
   );
