@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Flex,
   Center,
@@ -16,18 +16,39 @@ import { Link, useNavigate } from "react-router-dom";
 import { EmailIcon, UnlockIcon } from "@chakra-ui/icons";
 import * as Yup from "yup";
 import { Field, Form, Formik } from "formik";
+import { useDispatch, useSelector } from "react-redux";
+import { useLoginMutation } from "../slices/usersApiSlice";
+import { setCredentials } from "../slices/authSlice";
 
 function LoginScreen() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const handleSubmit = (values, actions) => {
-    navigate("/chat-bot");
-    actions.resetForm();
+  const [login] = useLoginMutation();
+
+  const { userInfo } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (userInfo) {
+      navigate("/");
+    }
+  }, [navigate, userInfo]);
+
+  const handleSubmit = async (values) => {
+    const { email, password } = values;
+    try {
+      const res = await login({ email, password }).unwrap();
+      console.log(res);
+      dispatch(setCredentials({ ...res }));
+      navigate("/");
+    } catch (err) {
+      console.log(err?.data?.message || err.error);
+    }
   };
 
   return (
     <Formik
-      initialValues={{ email: "", password: "", confirmPassword: "" }}
+      initialValues={{ email: "", password: "" }}
       validationSchema={Yup.object({
         email: Yup.string().email("Invalid email").required("Email Required"),
         password: Yup.string().required("Password Required"),
