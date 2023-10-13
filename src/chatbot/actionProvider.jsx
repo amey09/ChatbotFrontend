@@ -1,11 +1,27 @@
 import {createClientMessage} from "react-chatbot-kit";
 
-import React from "react";
-import {setBooking, setUserDetails} from "../slices/usersSlice";
+import React, {useEffect, useState} from "react";
+import {setUserDetails} from "../slices/usersSlice";
 import {useDispatch} from "react-redux";
 
 function ActionProvider({createChatBotMessage, setState, children}) {
-    const dispatch = useDispatch()
+
+    const [customSessionData, setCustomSessionData] = useState({
+        mode: undefined,
+        age: undefined,
+        dateTime: undefined,
+    });
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (
+            customSessionData.age !== undefined &&
+            customSessionData.mode !== undefined
+        ) {
+            dispatch(setUserDetails(customSessionData));
+        }
+    }, [customSessionData]);
+
     const initialAction = () => {
         const messages = [
             createClientMessage("Got it!"),
@@ -20,33 +36,48 @@ function ActionProvider({createChatBotMessage, setState, children}) {
         const message = `${String(props.date)}, ${String(props.day)}, ${String(
             props.time
         )}`;
-        dispatch(setBooking({Date: props.date, Time: props.time, Day: props.day}))
+        setCustomSessionData((prevData) => ({
+            ...prevData,
+            dateTime: message,
+        }));
         const messages = [createClientMessage(message)];
         updateState(messages);
     };
 
-    const userDetailAction = () => {
+    const ageSelection = () => {
         const messages = [
-            createChatBotMessage("Enter Details", {
-                widget: "InputField",
+            createChatBotMessage("Enter Age", {
+                widget: "AgeSelector",
             }),
         ];
         updateState(messages);
     };
 
-    const finalAction = (props) => {
-        const message = `${props.name}, ${props.age}`;
-        const messages = [createClientMessage(message)];
-        dispatch(setUserDetails({name: props.name, age: props.age}))
+    const modeSelection = (age) => {
+        const messages = [
+            createClientMessage(age),
+            createChatBotMessage("Online or Offline?", {
+                widget: "ModeSelector",
+            }),
+        ];
+        setCustomSessionData((prevData) => ({
+            ...prevData,
+            age: age,
+        }));
         updateState(messages);
     };
 
-    const scheduleWidgetAction = () => {
+    const scheduleWidgetAction = (mode) => {
         const messages = [
+            createClientMessage(mode),
             createChatBotMessage("Successfully Booked", {
                 widget: "ScheduleCard",
             }),
         ];
+        setCustomSessionData((prevData) => ({
+            ...prevData,
+            mode: mode,
+        }));
         updateState(messages);
     };
 
@@ -64,8 +95,8 @@ function ActionProvider({createChatBotMessage, setState, children}) {
                     actions: {
                         initialAction,
                         scheduleWidgetAction,
-                        finalAction,
-                        userDetailAction,
+                        ageSelection,
+                        modeSelection,
                         scheduleAction,
                     },
                 });
