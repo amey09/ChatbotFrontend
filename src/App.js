@@ -1,15 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Navbar from "./components/Navbar";
 import MainAppScreen from "./screens/MainAppScreen";
-
 import { Routes, Route } from "react-router-dom";
 import ChatbotScreen from "./screens/ChatbotScreen";
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreens";
 import DashboardScreen from "./screens/DashboardScreen";
 import ProtectedRoute from "./utils/protectedRoutes";
+import { useDispatch } from "react-redux";
+import { useLocation } from "react-router-dom";
+import { resetState } from "./slices/usersSlice";
 
 function App() {
+  const dispatch = useDispatch();
+  const location = useLocation();
+  useEffect(() => {
+    if (location.pathname !== "/chat-bot") {
+      dispatch(resetState());
+    }
+  }, [location]);
+
   return (
     <>
       <Navbar />
