@@ -12,7 +12,7 @@ const AgeSelector = (props) => {
   return (
     <>
       {!isSubmitted ? (
-        <Flex gap={"1rem"} maxW={"50%"}>
+        <Flex gap={"1rem"} flexDir={"column"}>
           <Input
             value={age}
             onChange={(e) => setAge(e.target.value)}
