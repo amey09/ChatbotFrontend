@@ -11,7 +11,7 @@ const ModeSelector = (props) => {
   return (
     <>
       {!isSubmitted ? (
-        <Flex gap={"0.5rem"}>
+        <Flex gap={"0.5rem"} justifyContent={"flex-end"}>
           <Button
             colorScheme={"teal"}
             onClick={() => handleModeSelect("Online")}
