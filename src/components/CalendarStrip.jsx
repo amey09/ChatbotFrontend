@@ -3,6 +3,11 @@ import {Button, Flex, HStack, Text} from "@chakra-ui/react";
 import Slider from "react-slick";
 import "../styles/slick-theme.css";
 import "../styles/slick.css";
+import {
+    dateRegexFormatter,
+    formatTime,
+    generateTimeRange,
+} from "../utils/dateFormatter";
 
 const CalendarStrip = (props) => {
     const [selectedDateIndex, setSelectedDateIndex] = useState(null);
@@ -11,6 +16,10 @@ const CalendarStrip = (props) => {
     const [shouldRender, setShouldRender] = useState(true);
     const [dateSelected, setDateSelected] = useState(false);
     const [timeSelected, setTimeSelected] = useState(false);
+    const [selectedRawDate, setSelectedRawDate] = useState(undefined);
+    const [selectedRawTime, setSelectedRawTime] = useState(undefined);
+
+    const rawDateRange = [];
 
     useEffect(() => {
         if (dateSelected && timeSelected) {
@@ -20,11 +29,12 @@ const CalendarStrip = (props) => {
                     date: selectedDateIndex,
                     time: selectedTimeValue,
                     day: selectedDayOfWeek,
+                    rawRescheduledDateTime: `${selectedRawDate}${selectedRawTime}`,
                 });
-                props.actions.ageSelection()
+                props.actions.ageSelection();
             }, 1000);
         }
-    }, [selectedDateIndex, selectedTimeValue]);
+    }, [selectedTimeValue]);
 
     const DateGenerator = () => {
         const currentDate = new Date();
@@ -49,6 +59,7 @@ const CalendarStrip = (props) => {
                 dayOfWeek = "Tomorrow";
             }
 
+            rawDateRange.push(targetDate);
             dateRange.push({formattedDate, dayOfWeek});
         }
 
@@ -65,35 +76,44 @@ const CalendarStrip = (props) => {
         slidesToScroll: 2,
     };
 
-    const generateTimeButtons = (times) => {
-        return times.map((time) => (
-            <Button
-                key={time}
-                onClick={() => {
-                    setSelectedTimeValue(time);
-                    setTimeSelected(true);
-                }}
-                colorScheme={
-                    selectedTimeValue === time ? "blue" : timeSelected ? "gray" : "gray"
-                }
-                isDisabled={timeSelected}
-            >
-                {time}
-            </Button>
-        ));
-    };
+    const currentDate = new Date();
+    currentDate.setDate(currentDate.getDate() + 1);
 
     const handleSelectedDate = (index) => {
         if (index >= 0 && index < dates.length && !dateSelected) {
             const selectedDate = dates[index];
+            setSelectedRawDate(dateRegexFormatter(rawDateRange[index]));
             setSelectedDateIndex(selectedDate.formattedDate);
             setSelectedDayOfWeek(selectedDate.dayOfWeek);
             setDateSelected(true);
         }
     };
 
-    const morningTimes = ["9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM"];
-    const afternoonTimes = ["2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM"];
+    const morningTimes = generateTimeRange(9, 12, 60);
+    const afternoonTimes = generateTimeRange(14, 17, 60);
+
+    const generateTimeButtons = (times) => {
+        return times.map((time) => {
+            const {formatted, value} = formatTime(time);
+
+            return (
+                <Button
+                    key={time}
+                    onClick={() => {
+                        setSelectedTimeValue(formatted);
+                        setTimeSelected(true);
+                        setSelectedRawTime(value);
+                    }}
+                    colorScheme={
+                        selectedTimeValue === time ? "blue" : timeSelected ? "gray" : "gray"
+                    }
+                    isDisabled={timeSelected}
+                >
+                    {formatted}
+                </Button>
+            );
+        });
+    };
 
     return shouldRender ? (
         <Flex flexDirection={"column"} gap={"0.5rem"}>
