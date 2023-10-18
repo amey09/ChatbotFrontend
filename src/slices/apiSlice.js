@@ -1,6 +1,6 @@
 import {fetchBaseQuery, createApi} from "@reduxjs/toolkit/query/react";
 
-const baseQuery = fetchBaseQuery({baseUrl: process.env.REACT_APP_BASE_URL});
+const baseQuery = fetchBaseQuery({baseUrl: process.env.REACT_APP_BASE_URL, credentials: "include"});
 
 export const apiSlice = createApi({
     baseQuery,
