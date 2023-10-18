@@ -16,24 +16,47 @@ import {
 } from "@chakra-ui/react";
 import {EmailIcon, LockIcon} from "@chakra-ui/icons";
 import {Link, useNavigate} from "react-router-dom";
+import {setCredentials} from "../slices/authSlice";
+import {toast} from "react-toastify";
+import {useRegisterMutation} from "../slices/usersApiSlice";
+import {useDispatch} from "react-redux";
+import {BiSolidUser} from "react-icons/bi";
+import {CgKey} from "react-icons/cg";
 
 function RegisterScreen() {
     const navigate = useNavigate();
+    const [register] = useRegisterMutation()
 
-    const handleSubmit = (values, actions) => {
-        navigate("/login");
-        actions.resetForm();
+
+    const handleSubmit = async (values) => {
+        const {name, email, password, confirmPassword, secretKey} = values;
+        try {
+            const res = await register({name, email, password, confirmPassword, secretKey}).unwrap();
+            console.log(res)
+            navigate("/login");
+            toast.success("Register successful", {
+                position: "bottom-left",
+                autoClose: 3000,
+            });
+        } catch (err) {
+            toast.error("Bad credentials", {
+                position: "bottom-left",
+                autoClose: 3000,
+            });
+        }
     };
 
     return (
         <Formik
-            initialValues={{email: "", password: "", confirmPassword: ""}}
+            initialValues={{email: "", password: "", confirmPassword: "", name: "", secretKey: ""}}
             validationSchema={Yup.object({
+                name: Yup.string().required("Name Required"),
                 email: Yup.string().email("Invalid email").required("Email Required"),
                 password: Yup.string().required("Password Required"),
                 confirmPassword: Yup.string()
                     .oneOf([Yup.ref("password"), null], "Passwords Must Match!")
                     .required("Password Confirmation Required"),
+                secretKey: Yup.string()
             })}
             onSubmit={handleSubmit}
         >
@@ -47,12 +70,34 @@ function RegisterScreen() {
                         <Flex
                             flexDir={"column"}
                             justifyContent={"flex-start"}
-                            gap={"2rem"}
+                            gap={"1rem"}
                             width={{md: "60vw", lg: "50vw", xl: "20vw"}}
-                            transform={"translateY(-4vh)"}
+
                         >
                             <Heading fontWeight={"500"}>Register</Heading>
-                            <VStack gap={"1.3rem"} alignItems={"left"}>
+                            <VStack gap={"0.5rem"} alignItems={"left"}>
+                                <Field type="name" name="name">
+                                    {({field}) => (
+                                        <FormControl
+                                            isInvalid={formik.touched.email && formik.errors.email}
+                                        >
+                                            <FormLabel>Name</FormLabel>
+                                            <InputGroup>
+                                                <InputLeftElement aria-label="Email Icon">
+                                                    <BiSolidUser/>
+                                                </InputLeftElement>
+                                                <Input
+                                                    {...field}
+                                                    type="name"
+                                                    placeholder="Enter Name"
+                                                />
+                                            </InputGroup>
+                                            <FormErrorMessage name="name">
+                                                {formik.errors.name}
+                                            </FormErrorMessage>
+                                        </FormControl>
+                                    )}
+                                </Field>
                                 <Field type="email" name="email">
                                     {({field}) => (
                                         <FormControl
@@ -121,6 +166,24 @@ function RegisterScreen() {
                                             <FormErrorMessage name="password">
                                                 {formik.errors.confirmPassword}
                                             </FormErrorMessage>
+                                        </FormControl>
+                                    )}
+                                </Field>
+                                <Field type="secretkey" name="secretkey">
+                                    {({field}) => (
+                                        <FormControl
+                                        >
+                                            <FormLabel>SecretKey</FormLabel>
+                                            <InputGroup>
+                                                <InputLeftElement aria-label="Secret Key Icon">
+                                                    <CgKey/>
+                                                </InputLeftElement>
+                                                <Input
+                                                    {...field}
+                                                    type="secretkey"
+                                                    placeholder="Enter Secret Key"
+                                                />
+                                            </InputGroup>
                                         </FormControl>
                                     )}
                                 </Field>

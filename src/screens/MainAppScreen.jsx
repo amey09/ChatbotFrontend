@@ -12,10 +12,10 @@ function MainAppScreen() {
                 alignItems={"center"}
                 gap={"1.5rem"}
             >
-                <Text>Enter into Student Info System</Text>
+                <Text>Welcome to Session Scheduler</Text>
                 <Link to={"/dashboard"}>
                     <Button colorScheme={"teal"} rounded={"xl"}>
-                        Enroll Now
+                        Get Started
                     </Button>
                 </Link>
             </Flex>

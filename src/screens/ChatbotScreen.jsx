@@ -15,7 +15,7 @@ function ChatbotScreen() {
     return (
         <>
             {sessionId ? (
-                <Center height={"90svh"} bgColor={"red"}>
+                <Center height={"90svh"}>
                     <div className="chatbot-styles">
                         <Chatbot
                             config={config}
