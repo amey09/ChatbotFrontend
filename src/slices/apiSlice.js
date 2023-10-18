@@ -1,6 +1,9 @@
 import {fetchBaseQuery, createApi} from "@reduxjs/toolkit/query/react";
 
-const baseQuery = fetchBaseQuery({baseUrl: process.env.REACT_APP_BASE_URL, credentials: "include"});
+const baseQuery = fetchBaseQuery({
+    baseUrl: 'https://chatbot-backend-4va5u4nlu-amey-mhatres-projects.vercel.app/',
+    credentials: "include"
+});
 
 export const apiSlice = createApi({
     baseQuery,
