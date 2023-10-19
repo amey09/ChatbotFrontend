@@ -1,7 +1,7 @@
 import {fetchBaseQuery, createApi} from "@reduxjs/toolkit/query/react";
 
 const baseQuery = fetchBaseQuery({
-    baseUrl: process.env.SERVER_BASE_API_URL,
+    baseUrl: 'https://chatbot-amey-api.onrender.com',
     credentials: "include"
 });
 
