@@ -52,7 +52,7 @@ const Navbar = () => {
                 justifyContent={"space-between"}
                 backgroundColor={"whitesmoke"}
                 alignItems={"center"}
-                minHeight={"10svh"}
+                minHeight={"10vh"}
                 padding={"1rem 1.5rem"}
                 position={"sticky"}
                 top={0}

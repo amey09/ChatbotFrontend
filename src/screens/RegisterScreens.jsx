@@ -63,7 +63,7 @@ function RegisterScreen() {
             {(formik) => (
                 <Form>
                     <Center
-                        minHeight={"90svh"}
+                        minHeight={"90vh"}
                         backgroundColor={"black"}
                         textColor={"white"}
                     >

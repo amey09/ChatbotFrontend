@@ -49,7 +49,7 @@ const DashboardScreen = () => {
     };
 
     return (
-        <Flex flexDir={"column"} minHeight={"90svh"}>
+        <Flex flexDir={"column"} minHeight={"90vh"}>
             <ToastContainer/>
             <Tabs
                 position={"relative"}
