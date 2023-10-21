@@ -32,28 +32,6 @@ const DashboardScreen = () => {
     const [deleteSession] = useDeleteSessionMutation();
     const {refetch} = useGetSessionsQuery();
 
-    const cookieCheck = () => {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            if (cookie.startsWith('jwt=')) {
-                // If the 'jwt' cookie is present, show a success toast
-                toast.success("JWT cookie found!", {
-                    position: "bottom-left",
-                    autoClose: 3000,
-                });
-                return true;
-            }
-        }
-
-        // If the 'jwt' cookie is not found, show a different toast message
-        toast.error("JWT cookie not found!", {
-            position: "bottom-left",
-            autoClose: 3000,
-        });
-        return false;
-    };
-
     const handleDeleteBooking = async (sessionID) => {
         try {
             await deleteSession({sessionID}).unwrap();
@@ -192,7 +170,6 @@ const DashboardScreen = () => {
                                 transitionTimingFunction: "ease-in-out",
                             }}
                         />
-                        <Button onClick={() => cookieCheck()}>Check Cookie</Button>
                         <CreateSessionModal onClose={onClose} onOpen={onOpen} isOpen={isOpen}/>
                     </>
                 ) : null}
