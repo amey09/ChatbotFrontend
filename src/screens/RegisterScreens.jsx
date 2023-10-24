@@ -171,7 +171,7 @@ function RegisterScreen() {
                                     {({field}) => (
                                         <FormControl
                                         >
-                                            <FormLabel>SecretKey</FormLabel>
+                                            <FormLabel>Admin-key</FormLabel>
                                             <InputGroup>
                                                 <InputLeftElement aria-label="Secret Key Icon">
                                                     <CgKey/>
@@ -179,9 +179,8 @@ function RegisterScreen() {
                                                 <Input
                                                     {...field}
                                                     type="secretKey"
-                                                    placeholder="Enter Secret Key"
+                                                    placeholder="Optional"
                                                 />
-                                                <FormHelperText>Optional</FormHelperText>
                                             </InputGroup>
                                         </FormControl>
                                     )}
