@@ -30,14 +30,13 @@ function RegisterScreen() {
         const {name, email, password, confirmPassword, secretKey} = values;
         try {
             const res = await register({name, email, password, confirmPassword, secretKey}).unwrap();
-            console.log(res)
             navigate("/login");
             toast.success("Register successful", {
                 position: "bottom-left",
                 autoClose: 3000,
             });
         } catch (err) {
-            toast.error("Bad credentials", {
+            toast.error("User already exists", {
                 position: "bottom-left",
                 autoClose: 3000,
             });
