@@ -15,7 +15,7 @@ function ChatbotScreen() {
     return (
         <>
             {sessionId ? (
-                <Center height={"90vh"} maxWidth={"1366px"}>
+                <Center height={"89svh"} maxWidth={"1366px"}>
                     <div className="chatbot-styles">
                         <Chatbot
                             config={config}

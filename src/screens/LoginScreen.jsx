@@ -66,7 +66,7 @@ function LoginScreen() {
                 <Form>
                     <ToastContainer/>
                     <Center
-                        minHeight={"90vh"}
+                        minHeight={"89svh"}
                         backgroundColor={"black"}
                         textColor={"white"}
                     >

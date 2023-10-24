@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 
 function MainAppScreen() {
     return (
-        <Center minHeight={"90vh"}>
+        <Center minHeight={"89svh"}>
             <Flex
                 direction={"column"}
                 minWidth={"20vw"}

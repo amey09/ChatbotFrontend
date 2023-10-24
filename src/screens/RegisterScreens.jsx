@@ -12,7 +12,7 @@ import {
     Button,
     InputGroup,
     InputLeftElement,
-    FormErrorMessage, FormHelperText,
+    FormErrorMessage,
 } from "@chakra-ui/react";
 import {EmailIcon, LockIcon} from "@chakra-ui/icons";
 import {Link, useNavigate} from "react-router-dom";
@@ -29,7 +29,7 @@ function RegisterScreen() {
     const handleSubmit = async (values) => {
         const {name, email, password, confirmPassword, secretKey} = values;
         try {
-            const res = await register({name, email, password, confirmPassword, secretKey}).unwrap();
+            await register({name, email, password, confirmPassword, secretKey}).unwrap();
             navigate("/login");
             toast.success("Register successful", {
                 position: "bottom-left",
@@ -60,7 +60,7 @@ function RegisterScreen() {
             {(formik) => (
                 <Form>
                     <Center
-                        minHeight={"90vh"}
+                        minHeight={"89svh"}
                         backgroundColor={"black"}
                         textColor={"white"}
                     >
