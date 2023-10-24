@@ -16,10 +16,8 @@ import {
 } from "@chakra-ui/react";
 import {EmailIcon, LockIcon} from "@chakra-ui/icons";
 import {Link, useNavigate} from "react-router-dom";
-import {setCredentials} from "../slices/authSlice";
 import {toast} from "react-toastify";
 import {useRegisterMutation} from "../slices/usersApiSlice";
-import {useDispatch} from "react-redux";
 import {BiSolidUser} from "react-icons/bi";
 import {CgKey} from "react-icons/cg";
 
