@@ -12,7 +12,7 @@ import {
     Button,
     InputGroup,
     InputLeftElement,
-    FormErrorMessage,
+    FormErrorMessage, FormHelperText,
 } from "@chakra-ui/react";
 import {EmailIcon, LockIcon} from "@chakra-ui/icons";
 import {Link, useNavigate} from "react-router-dom";
@@ -167,7 +167,7 @@ function RegisterScreen() {
                                         </FormControl>
                                     )}
                                 </Field>
-                                <Field type="secretkey" name="secretkey">
+                                <Field type="secretKey" name="secretKey">
                                     {({field}) => (
                                         <FormControl
                                         >
@@ -178,9 +178,10 @@ function RegisterScreen() {
                                                 </InputLeftElement>
                                                 <Input
                                                     {...field}
-                                                    type="secretkey"
+                                                    type="secretKey"
                                                     placeholder="Enter Secret Key"
                                                 />
+                                                <FormHelperText>Optional</FormHelperText>
                                             </InputGroup>
                                         </FormControl>
                                     )}
