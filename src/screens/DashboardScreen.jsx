@@ -64,7 +64,7 @@ const DashboardScreen = () => {
 
     return (
         <div>
-            {fetchedSessions ? (
+            {!isError ? (
                 <>
                     <Flex flexDir={"column"} minHeight={"90vh"}>
                         <ToastContainer/>
