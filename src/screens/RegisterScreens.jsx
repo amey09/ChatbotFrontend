@@ -178,7 +178,7 @@ function RegisterScreen() {
                                                 </InputLeftElement>
                                                 <Input
                                                     {...field}
-                                                    type="secretKey"
+                                                    type="password"
                                                     placeholder="Optional"
                                                 />
                                             </InputGroup>
