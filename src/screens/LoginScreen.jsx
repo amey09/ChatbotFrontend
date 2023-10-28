@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {
     Flex,
     Center,
@@ -21,11 +21,13 @@ import {useLoginMutation} from "../slices/usersApiSlice";
 import {setCredentials} from "../slices/authSlice";
 import {ToastContainer, toast} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Loader from "../components/Loader";
 
 function LoginScreen() {
+    const [loadingLogin, setLoadingLogin] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const [login] = useLoginMutation();
+    const [login, {isLoading}] = useLoginMutation();
 
     const {userInfo} = useSelector((state) => state.auth);
 
@@ -37,6 +39,7 @@ function LoginScreen() {
 
     const handleSubmit = async (values) => {
         const {email, password} = values;
+        setLoadingLogin(true);
         try {
             const res = await login({email, password}).unwrap();
             dispatch(setCredentials({...res}));
@@ -50,8 +53,14 @@ function LoginScreen() {
                 position: "bottom-left",
                 autoClose: 3000,
             });
+        } finally {
+            setLoadingLogin(false);
         }
     };
+
+    if (isLoading || loadingLogin) {
+        return <Loader/>;
+    }
 
     return (
         <Formik

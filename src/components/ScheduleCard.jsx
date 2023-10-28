@@ -10,8 +10,7 @@ import {
     Text,
 } from "@chakra-ui/react";
 import React, {useEffect, useState} from "react";
-import {AiOutlinePhone} from "react-icons/ai";
-import {Link, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {FaUserAlt, FaLocationArrow} from "react-icons/fa";
 import {BsClock} from "react-icons/bs";
