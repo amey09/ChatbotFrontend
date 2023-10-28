@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useMemo, useEffect} from "react";
 import {Button, Flex, HStack, Text} from "@chakra-ui/react";
 import Slider from "react-slick";
 import "../styles/slick-theme.css";
@@ -21,20 +21,29 @@ const CalendarStrip = (props) => {
 
     const rawDateRange = [];
 
+    const memoizedRawDate = useMemo(() => selectedRawDate, [selectedRawDate]);
+    const memoizedRawTime = useMemo(() => selectedRawTime, [selectedRawTime]);
+
     useEffect(() => {
-        if (dateSelected && timeSelected) {
-            setTimeout(() => {
+        if (memoizedRawDate && memoizedRawTime) {
+            const timeout = setTimeout(() => {
+                console.log(`Timeout Run`);
                 setShouldRender(false);
                 props.actions.scheduleAction({
                     date: selectedDateIndex,
                     time: selectedTimeValue,
                     day: selectedDayOfWeek,
-                    rawRescheduledDateTime: `${selectedRawDate}${selectedRawTime}`,
+                    rawRescheduledDateTime: `${memoizedRawDate}${memoizedRawTime}`,
                 });
-                props.actions.ageSelection();
+                props.actions.modeSelection();
+                setSelectedRawDate(undefined);
+                setSelectedRawTime(undefined);
             }, 1000);
+
+            return () => clearTimeout(timeout);
         }
-    }, [selectedTimeValue]);
+    }, [memoizedRawDate, memoizedRawTime, selectedDateIndex, selectedTimeValue, selectedDayOfWeek, props.actions]);
+
 
     const DateGenerator = () => {
         const currentDate = new Date();
@@ -145,9 +154,9 @@ const CalendarStrip = (props) => {
                 gap={"0.5rem"}
             >
                 <Text>Morning</Text>
-                <HStack>{generateTimeButtons(morningTimes)}</HStack>
+                <HStack justifyContent={"space-evenly"}>{generateTimeButtons(morningTimes)}</HStack>
                 <Text>Afternoon</Text>
-                <HStack>{generateTimeButtons(afternoonTimes)}</HStack>
+                <HStack justifyContent={"space-evenly"}>{generateTimeButtons(afternoonTimes)}</HStack>
             </Flex>
         </Flex>
     ) : null;

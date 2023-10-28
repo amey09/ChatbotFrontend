@@ -28,7 +28,7 @@ import {
 } from "../slices/sessionsApiSlice";
 import {toast, ToastContainer} from "react-toastify";
 
-const CreateSessionModal = ({isOpen, onClose}) => {
+const CreateSessionModal = ({isOpen, onClose, setTabIndex}) => {
     const ChildModal = () => {
         const [isDateChecked, setIsDateChecked] = useState(false);
         const [isTimeChecked, setIsTimeChecked] = useState(false);
@@ -64,6 +64,7 @@ const CreateSessionModal = ({isOpen, onClose}) => {
                 });
                 refetch();
                 onClose();
+                setTabIndex(1);
             } catch (error) {
                 throw new Error(error);
             }
@@ -80,6 +81,7 @@ const CreateSessionModal = ({isOpen, onClose}) => {
                 setSelectedTime({hours: undefined, minutes: undefined});
                 setdefaultDateCheckedValue(false);
                 setdefaultTimeCheckedValue(false);
+                setShowLabel(false);
             }
 
             if (isDateChecked) {
@@ -172,17 +174,21 @@ const CreateSessionModal = ({isOpen, onClose}) => {
                             </Flex>
                         </Flex>
                         {isTimeChecked ? (
-                            <Flex flexDir={"column"}>
-                                <InputGroup gap={"0.5rem"} paddingTop={"0.8rem"}>
+                            <Flex paddingTop={"0.8rem"} alignItems={"center"} gap={"2rem"}>
+                                <Text whiteSpace={"nowrap"} fontSize={"xl"} flex={1}>
+                                    Select Time:
+                                </Text>
+                                <InputGroup gap={"1rem"}>
                                     <InputLeftElement/>
                                     <Select
                                         colorScheme="teal"
                                         value={selectedTime.hours}
-                                        placeholder="Hour"
+                                        placeholder="HH"
                                         onChange={(event) => {
                                             setSelectedTime({
                                                 ...selectedTime,
                                                 hours: event.target.value,
+                                                minutes: "00",
                                             });
                                         }}
                                     >
@@ -197,7 +203,7 @@ const CreateSessionModal = ({isOpen, onClose}) => {
                                     </Select>
                                     <Select
                                         value={selectedTime.minutes}
-                                        placeholder="Minute"
+                                        placeholder="MM"
                                         onChange={(event) => {
                                             setSelectedTime({
                                                 ...selectedTime,
@@ -216,49 +222,70 @@ const CreateSessionModal = ({isOpen, onClose}) => {
                     selectedTime.hours &&
                     selectedTime.minutes &&
                     !showLabel ? (
-                        <Flex justifyContent={"space-evenly"}>
-                            <Button
-                                color={"blackAlpha.800"}
-                                value={"Online"}
-                                onClick={() => {
-                                    setShowLabel((prev) => !prev);
-                                    setSelectedMode("Online");
-                                }}
-                                _hover={{
-                                    shadow: "md",
-                                    transform: "translateY(-5px)",
-                                    transitionDuration: "0.2s",
-                                    transitionTimingFunction: "ease-in-out",
-                                }}
-                            >
-                                Online
-                            </Button>
-                            <Button
-                                color={"blackAlpha.800"}
-                                value={"Offline"}
-                                onClick={() => {
-                                    setShowLabel((prev) => !prev);
-                                    setSelectedMode("Offline");
-                                }}
-                                _hover={{
-                                    shadow: "md",
-                                    transform: "translateY(-5px)",
-                                    transitionDuration: "0.2s",
-                                    transitionTimingFunction: "ease-in-out",
-                                }}
-                            >
-                                Offline
-                            </Button>
+                        <Flex justifyContent={"space-evenly"} alignItems={"center"}>
+                            <Flex flexDir={"column"} flex={1}>
+                                <Text fontSize="xl">Select Mode:</Text>
+                                <Text fontSize={"md"} textColor={"blue.400"}>
+                                    (Optional)
+                                </Text>
+                            </Flex>
+                            <Flex gap={"1rem"} flex={1}>
+                                <Button
+                                    color={"blackAlpha.800"}
+                                    value={"Online"}
+                                    onClick={() => {
+                                        setShowLabel((prev) => !prev);
+                                        setSelectedMode("Online");
+                                    }}
+                                    _hover={{
+                                        shadow: "md",
+                                        transform: "translateY(-5px)",
+                                        transitionDuration: "0.2s",
+                                        transitionTimingFunction: "ease-in-out",
+                                    }}
+                                >
+                                    Online
+                                </Button>
+                                <Button
+                                    color={"blackAlpha.800"}
+                                    value={"Offline"}
+                                    onClick={() => {
+                                        setShowLabel((prev) => !prev);
+                                        setSelectedMode("Offline");
+                                    }}
+                                    _hover={{
+                                        shadow: "md",
+                                        transform: "translateY(-5px)",
+                                        transitionDuration: "0.2s",
+                                        transitionTimingFunction: "ease-in-out",
+                                    }}
+                                >
+                                    Offline
+                                </Button>
+                            </Flex>
                         </Flex>
                     ) : null}
                     {showLabel && (
-                        <Flex justifyContent={"center"}>
-                            <Button
+                        <Flex justifyContent={"space-between"} alignItems={"center"}>
+                            <Flex flexDir={"column"} flex={1} alignItems={"start"}>
+                                <Text fontSize="xl">Selected Mode:</Text>
+                                <Button
+                                    fontSize={"md"}
+                                    textColor={"blue.400"}
+                                    variant={"link"}
+                                    onClick={() => setShowLabel((prev) => !prev)}
+                                >
+                                    Reselect?
+                                </Button>
+                            </Flex>
+                            <Text
                                 color={"blackAlpha.800"}
-                                onClick={() => setShowLabel((prev) => !prev)}
+                                as={"label"}
+                                variant={"ghost"}
+                                fontSize={"lg"}
                             >
                                 {selectedMode}
-                            </Button>
+                            </Text>
                         </Flex>
                     )}
                     {selectedDate && selectedTime.hours && selectedTime.minutes ? (
@@ -283,13 +310,14 @@ const CreateSessionModal = ({isOpen, onClose}) => {
     };
 
     return (
-        <>
+        <Box zIndex={"800"}>
             <Modal
                 isCentered
                 isOpen={isOpen}
                 onClose={onClose}
                 position={"relative"}
                 motionPreset="slideInBottom"
+                closeOnOverlayClick={false}
             >
                 <ModalOverlay
                     bg="none"
@@ -330,7 +358,7 @@ const CreateSessionModal = ({isOpen, onClose}) => {
                     </ModalBody>
                 </ModalContent>
             </Modal>
-        </>
+        </Box>
     );
 };
 
