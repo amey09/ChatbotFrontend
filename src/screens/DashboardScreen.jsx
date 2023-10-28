@@ -61,14 +61,19 @@ const DashboardScreen = () => {
             <>
                 <Loader/>
             </>
-        )
+        );
     }
 
     return (
-        <div>
+        <>
             {!isError ? (
-                <>
-                    <Flex flexDir={"column"} minHeight={"90svh"} maxWidth={"1366px"}>
+                <Flex justifyContent={"center"}>
+                    <Flex
+                        flexDir={"column"}
+                        minHeight={"88.4svh"}
+                        flex={1}
+                        maxW={"800px"}
+                    >
                         <ToastContainer/>
                         <Tabs
                             position={"relative"}
@@ -82,13 +87,17 @@ const DashboardScreen = () => {
                                 position={"sticky"}
                                 top={"10svh"}
                                 backgroundColor={"white"}
-                                zIndex={800}
+                                zIndex={600}
                             >
                                 {sessions &&
                                     typeof sessions === "object" &&
                                     Object.keys(sessions)
                                         .slice(1)
-                                        .map((session, index) => <Tab key={index}>{session}</Tab>)}
+                                        .map((session, index) => (
+                                            <Tab key={index} fontWeight={"medium"}>
+                                                {session.charAt(0).toUpperCase() + session.slice(1)}
+                                            </Tab>
+                                        ))}
                             </TabList>
                             <TabIndicator
                                 mt="-1.5px"
@@ -143,19 +152,29 @@ const DashboardScreen = () => {
                                                         >
                                                             <Heading>
                                                                 {isWarden
-                                                                    ? "No Sessions"
+                                                                    ? "No Sessions."
                                                                     : "You have no scheduled sessions"}
                                                             </Heading>
-                                                            <Button
-                                                                variant={"ghost"}
-                                                                colorScheme={"teal"}
-                                                                size={"sm"}
-                                                                boxShadow="0px 4px 6px rgba(0, 0, 0, 0.1)"
-                                                                maxW={"fit-content"}
-                                                                onClick={() => setTabIndex(1)}
-                                                            >
-                                                                Book a session?
-                                                            </Button>
+                                                            {isWarden ? (
+                                                                <>
+                                                                    <Button
+                                                                        variant={"ghost"}
+                                                                        colorScheme={"teal"}
+                                                                        size={"sm"}
+                                                                        boxShadow="0px 4px 6px rgba(0, 0, 0, 0.1)"
+                                                                        maxW={"fit-content"}
+                                                                        onClick={onOpen}
+                                                                    >
+                                                                        Create a new session
+                                                                    </Button>
+                                                                    <CreateSessionModal
+                                                                        onClose={onClose}
+                                                                        onOpen={onOpen}
+                                                                        isOpen={isOpen}
+                                                                        setTabIndex={setTabIndex}
+                                                                    />
+                                                                </>
+                                                            ) : null}
                                                         </Flex>
                                                     </TabPanel>
                                                 );
@@ -163,43 +182,44 @@ const DashboardScreen = () => {
                                         })}
                             </TabPanels>
                         </Tabs>
-                        <Box
-                            position={"fixed"}
-                            bottom={"1rem"}
-                            left={"50%"}
-                            transform={"translateX(-50%)"}
-                        >
-                            {isWarden ? (
-                                <>
-                                    <IconButton
-                                        zIndex={"100"}
-                                        maxW={"fit-content"}
-                                        variant="outline"
-                                        colorScheme="teal"
-                                        aria-label="Call Sage"
-                                        fontSize="20px"
-                                        icon={<AddIcon/>}
-                                        boxShadow="0px 4px 6px rgba(0, 0, 0, 0.1)"
-                                        onClick={onOpen}
-                                        _hover={{
-                                            shadow: "md",
-                                            transform: "translateY(-5px)",
-                                            transitionDuration: "0.2s",
-                                            transitionTimingFunction: "ease-in-out",
-                                        }}
-                                    />
-                                    <CreateSessionModal
-                                        onClose={onClose}
-                                        onOpen={onOpen}
-                                        isOpen={isOpen}
-                                    />
-                                </>
-                            ) : null}
-                        </Box>
+                        {isWarden ? (
+                            <Box
+                                position={"fixed"}
+                                bottom={"1rem"}
+                                left={"50%"}
+                                transform={"translateX(-50%)"}
+                            >
+                                <IconButton
+                                    zIndex={"100"}
+                                    maxW={"fit-content"}
+                                    variant="outline"
+                                    colorScheme="teal"
+                                    aria-label="Call Sage"
+                                    fontSize="20px"
+                                    icon={<AddIcon/>}
+                                    boxShadow="0px 4px 6px rgba(0, 0, 0, 0.1)"
+                                    onClick={onOpen}
+                                    _hover={{
+                                        shadow: "md",
+                                        transform: "translateY(-5px)",
+                                        transitionDuration: "0.2s",
+                                        transitionTimingFunction: "ease-in-out",
+                                    }}
+                                />
+                                <CreateSessionModal
+                                    onClose={onClose}
+                                    onOpen={onOpen}
+                                    isOpen={isOpen}
+                                    setTabIndex={setTabIndex}
+                                />
+                            </Box>
+                        ) : null}
                     </Flex>
-                </>
-            ) : <ErrorComponent logout={logout}/>}
-        </div>
+                </Flex>
+            ) : (
+                <ErrorComponent logout={logout}/>
+            )}
+        </>
     );
 };
 

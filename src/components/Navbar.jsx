@@ -10,28 +10,24 @@ import {
     useDisclosure,
 } from "@chakra-ui/react";
 
-import {FaUserCircle} from "react-icons/fa";
 import {MdLogout} from "react-icons/md";
 import {BsCalendar3} from "react-icons/bs";
 import {CgMenuMotion} from "react-icons/cg";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {logout} from "../slices/authSlice";
-import {useLogoutMutation} from "../slices/usersApiSlice";
 import ActionModal from "./ActionModal";
 import {toast, ToastContainer} from "react-toastify";
 
 const Navbar = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const [logoutApiCall] = useLogoutMutation();
     const {isOpen, onOpen, onClose} = useDisclosure();
 
     const {userInfo} = useSelector((state) => state.auth);
 
-    const handleLogout = async () => {
+    const handleLogout = () => {
         try {
-            await logoutApiCall().unwrap();
             dispatch(logout());
             toast.success("Logout Successful", {
                 position: "bottom-left",
@@ -58,7 +54,7 @@ const Navbar = () => {
                 top={0}
                 width={"100%"}
                 as="header"
-                zIndex={9999}
+                zIndex={700}
                 textColor={"black"}
             >
                 <Text
@@ -96,12 +92,6 @@ const Navbar = () => {
                                 display={"flex"}
                                 flexDir={"column"}
                             >
-                                <MenuItem
-                                    icon={<FaUserCircle/>}
-                                    backgroundColor={"whitesmoke"}
-                                >
-                                    Profile
-                                </MenuItem>
                                 <MenuItem
                                     icon={<BsCalendar3/>}
                                     backgroundColor={"whitesmoke"}

@@ -2,15 +2,18 @@ import {createChatBotMessage} from "react-chatbot-kit";
 import InitialButton from "../components/InitialButton";
 import CalendarStrip from "../components/CalendarStrip";
 import ScheduleCard from "../components/ScheduleCard";
-import AgeSelector from "../components/AgeSelector";
 import ModeSelector from "../components/ModeSelector";
+import BotAvatar from "../components/BotAvatar";
 
 const config = {
     initialMessages: [
-        createChatBotMessage(`Hello, Welcome to student info system!`, {
+        createChatBotMessage(`Hello, You are about to reschedule your session!`, {
             widget: "Gotit",
         }),
     ],
+    customComponents: {
+        botAvatar: (props) => <BotAvatar {...props}/>
+    },
     widgets: [
         {
             widgetName: "Gotit",
@@ -23,10 +26,6 @@ const config = {
         {
             widgetName: "ScheduleCard",
             widgetFunc: (props) => <ScheduleCard {...props} />,
-        },
-        {
-            widgetName: "AgeSelector",
-            widgetFunc: (props) => <AgeSelector {...props} />,
         },
         {
             widgetName: "ModeSelector",

@@ -18,7 +18,7 @@ function App() {
     if (location.pathname !== "/chat-bot") {
       dispatch(resetState());
     }
-  }, [location]);
+  }, [dispatch, location.pathname]);
 
   return (
     <>
