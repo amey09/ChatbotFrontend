@@ -15,7 +15,11 @@ function ChatbotScreen() {
     return (
         <>
             {sessionId ? (
-                <Center height={"90svh"} maxWidth={"1366px"}>
+                <Center
+                    height={"88.4svh"}
+                    alignItems={"center"}
+                    justifyContent={"center"}
+                >
                     <div className="chatbot-styles">
                         <Chatbot
                             config={config}
@@ -32,12 +36,12 @@ function ChatbotScreen() {
                         gap={"1rem"}
                         justifyContent={"center"}
                         flexDir={"column"}
-                        maxW={"fit-content"}
+                        maxW={"100%"}
                         alignItems={"center"}
                         textAlign={"center"}
                     >
                         <Heading size={"lg"}>
-                            Chatbot comes in handy to reschedule your sessions
+                            Chatbot can only be used to reschedule your sessions
                         </Heading>
 
                         <Button
