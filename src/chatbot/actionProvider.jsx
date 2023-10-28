@@ -11,9 +11,8 @@ import {
 function ActionProvider({createChatBotMessage, setState, children}) {
     const [customSessionData, setCustomSessionData] = useState({
         mode: undefined,
-        age: undefined,
         dateTime: undefined,
-        rescheduledDateTime: "",
+        rescheduledDateTime: undefined,
     });
     const dispatch = useDispatch();
     const {sessionInfo} = useSelector((state) => state.users);
@@ -30,14 +29,15 @@ function ActionProvider({createChatBotMessage, setState, children}) {
             }).unwrap();
             refetch();
         } catch (error) {
-            throw new Error(error)
+            throw new Error(error);
         }
         refetch();
     };
 
     useEffect(() => {
         if (
-            customSessionData.age !== undefined &&
+            customSessionData.rescheduledDateTime !== undefined &&
+            customSessionData.dateTime !== undefined &&
             customSessionData.mode !== undefined
         ) {
             dispatch(
@@ -52,8 +52,8 @@ function ActionProvider({createChatBotMessage, setState, children}) {
 
     const initialAction = () => {
         const messages = [
-            createClientMessage("Got it!"),
-            createChatBotMessage("Pick A Slot!", {
+            createClientMessage("Proceed"),
+            createChatBotMessage("Pick a new date and time", {
                 widget: "CalendarStrip",
             }),
         ];
@@ -73,26 +73,12 @@ function ActionProvider({createChatBotMessage, setState, children}) {
         updateState(messages);
     };
 
-    const ageSelection = () => {
+    const modeSelection = () => {
         const messages = [
-            createChatBotMessage("Enter Age", {
-                widget: "AgeSelector",
-            }),
-        ];
-        updateState(messages);
-    };
-
-    const modeSelection = (age) => {
-        const messages = [
-            createClientMessage(age),
-            createChatBotMessage("Online or Offline?", {
+            createChatBotMessage("Would you prefer an online or offline session?", {
                 widget: "ModeSelector",
             }),
         ];
-        setCustomSessionData((prevData) => ({
-            ...prevData,
-            age: age,
-        }));
         updateState(messages);
     };
 
@@ -124,7 +110,6 @@ function ActionProvider({createChatBotMessage, setState, children}) {
                     actions: {
                         initialAction,
                         scheduleWidgetAction,
-                        ageSelection,
                         modeSelection,
                         scheduleAction,
                     },
