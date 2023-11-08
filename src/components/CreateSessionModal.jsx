@@ -52,10 +52,12 @@ const CreateSessionModal = ({isOpen, onClose, setTabIndex}) => {
 
         const handleCreateSession = async () => {
             const rawSelectedDate = dateRegexFormatter(selectedDate);
+            const clientDateTime = new Date(`${rawSelectedDate}${selectedTime.hours}:${selectedTime.minutes}`);
+            const utcDateTime = clientDateTime.toISOString();
 
             try {
                 await create({
-                    datetime: `${rawSelectedDate}${selectedTime.hours}:${selectedTime.minutes}`,
+                    datetime: utcDateTime,
                     mode: selectedMode,
                 }).unwrap();
                 toast.success("Session Created", {

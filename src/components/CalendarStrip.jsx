@@ -26,14 +26,16 @@ const CalendarStrip = (props) => {
 
     useEffect(() => {
         if (memoizedRawDate && memoizedRawTime) {
-            const timeout = setTimeout(() => {
-                console.log(`Timeout Run`);
+            const timeout = setTimeout(() => {  
                 setShouldRender(false);
+                const clientDateTime = new Date(`${memoizedRawDate}${memoizedRawTime}`);
+                const utcDateTime = clientDateTime.toISOString();
+               
                 props.actions.scheduleAction({
                     date: selectedDateIndex,
                     time: selectedTimeValue,
                     day: selectedDayOfWeek,
-                    rawRescheduledDateTime: `${memoizedRawDate}${memoizedRawTime}`,
+                    rawRescheduledDateTime: utcDateTime,
                 });
                 props.actions.modeSelection();
                 setSelectedRawDate(undefined);
